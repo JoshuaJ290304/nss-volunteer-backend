@@ -1,32 +1,59 @@
-const express=require("express");
-const VolunteerModel=require("../models/VolunteerModel");
+const express = require("express");
+const VolunteerModel = require("../models/VolunteerModel");
 
-const router=express.Router();
+const router = express.Router();
 
-router.post("/add-volunteer",async(req,res)=>{
 
-    try{
+// ADD VOLUNTEER
 
-        const volunteer=new VolunteerModel(req.body);
+router.post("/add-volunteer", async (req, res) => {
+
+    try {
+
+        const volunteer = new VolunteerModel(req.body);
 
         await volunteer.save();
 
         res.json({
-            status:"success",
-            message:"Volunteer Added Successfully"
+            status: "success",
+            message: "Volunteer Added Successfully"
         });
 
     }
 
-    catch(error){
+    catch (error) {
 
         res.json({
-            status:"error",
-            message:error.message
+            status: "error",
+            message: error.message
         });
 
     }
 
 });
 
-module.exports=router;
+
+// VIEW ALL VOLUNTEERS
+
+router.post("/view-volunteer", async (req, res) => {
+
+    try {
+
+        const volunteers = await VolunteerModel.find();
+
+        res.json(volunteers);
+
+    }
+
+    catch (error) {
+
+        res.json({
+            status: "error",
+            message: error.message
+        });
+
+    }
+
+});
+
+module.exports = router;
